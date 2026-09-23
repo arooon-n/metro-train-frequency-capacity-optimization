@@ -1,0 +1,27 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.streamlit/secrets.toml
+
+# Raw data is never committed (preserve raw data unchanged, keep local)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Outputs are regenerated; keep folder structure
+outputs/figures/*
+!outputs/figures/.gitkeep
+outputs/runs/*
+!outputs/runs/.gitkeep
+outputs/reports/*
+!outputs/reports/.gitkeep
+
+*.xlsx
+*.xls
+*.parquet
+.DS_Store

@@ -1,0 +1,14 @@
+time_period,fleet_budget,source,notes
+# =============================================================================
+# OPTIONAL — train-equivalent service budget per 15-minute period.
+# -----------------------------------------------------------------------------
+# time_period  : canonical label, e.g. 07:45-08:00 (must match cleaned data)
+# fleet_budget : max total trains (train-equivalents) across ALL service groups
+#                scheduled in that 15-minute period.
+#                Leave this file EMPTY (header only) to DISABLE the budget
+#                constraint — the models then run unconstrained by budget.
+#
+# IMPORTANT: this is a SIMPLIFIED "train-equivalent service budget", NOT the
+# TfL physical fleet, NOT a rolling-stock circulation plan. Only enter a number
+# if you can source it; label the source in the `source` column.
+# =============================================================================

@@ -1,0 +1,23 @@
+mode,line,service_group,from_station,to_station,notes
+# =============================================================================
+# OPTIONAL — service-group / branch mapping.
+# -----------------------------------------------------------------------------
+# A "service group" is the decision unit of the optimisation models: one
+# integer frequency x[r,t] is chosen per (service group, 15-min period), and
+# every link in the group shares that frequency.
+#
+# DEFAULT behaviour when this file has no data rows:
+#     service_group = line        (one decision variable per line)
+#
+# Fill this file only if a line branches (e.g. splits at a junction) and you
+# can evidence the branch structure from NUMBAT / TfL route maps. Rules:
+#   - from_station / to_station empty  => applies to the WHOLE line
+#   - from_station / to_station filled => applies only to links whose
+#     from_station lies in [from_station .. to_station] along the line
+#   - every line must map to at least one service group; unmapped lines fall
+#     back to service_group = line with a warning.
+#
+# DO NOT invent mappings. Leave empty unless you can justify the structure.
+# Format example (remove the leading '#' to use):
+# Underground,Victoria,Victoria North,Walthamstow Central,Seven Sisters,example only
+# =============================================================================

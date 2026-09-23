@@ -1,0 +1,21 @@
+mode,line,service_group,capacity_per_train,capacity_definition,source,source_url,notes
+# =============================================================================
+# MANDATORY MANUAL INPUT — train capacity per service (passengers per train).
+# -----------------------------------------------------------------------------
+# NUMBAT does NOT contain train capacity. You MUST fill capacity_per_train from
+# an official/verifiable source (e.g. TfL rolling-stock capacity statements,
+# manufacturer datasheets, DfT vehicle specifications) and record the source.
+# Rows with an empty capacity_per_train are IGNORED and the model will refuse
+# to run for those lines (no capacity is ever guessed).
+#
+# mode          : transport mode label as it appears in NUMBAT (e.g. Underground)
+# line          : line label exactly as it appears in NUMBAT (see profile output)
+# service_group : leave equal to line unless config/service_groups.csv overrides
+# capacity_per_train : CRUSH or SEATED capacity per train, passengers per train
+# capacity_definition: e.g. "crush capacity" or "seated capacity" — state which
+# source / source_url : where the number came from (REQUIRED for academic use)
+#
+# CSV comment lines starting with '#' are stripped on load.
+# Example (remove leading '#' and fill real sourced values):
+# Underground,Victoria,Vic,1350,crush capacity,TfL fleet page,https://tfl.gov.uk,example only
+# =============================================================================

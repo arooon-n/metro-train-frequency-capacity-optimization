@@ -1,0 +1,18 @@
+mode,line,service_group,min_frequency_per_15min,max_frequency_per_15min,target_frequency_per_15min,notes
+# =============================================================================
+# OPTIONAL — service frequency bounds and targets (trains per 15-minute period).
+# -----------------------------------------------------------------------------
+# min_frequency_per_15min   : lower bound for x[r,t]. Empty = no explicit lower
+#                             bound beyond non-negativity.
+# max_frequency_per_15min   : upper bound for x[r,t]. Empty = no explicit upper
+#                             bound (budget constraint, if configured, still applies).
+# target_frequency_per_15min : target used by Model 3 Goal 2. Empty = target is
+#                             taken as the observed NUMBAT scheduled frequency.
+#
+# Units: trains per 15-minute period (same unit as NUMBAT Link Frequency).
+# Source guidance: Tube service frequency is constrained by signalling/turnback
+# capability — record the source of any bound you enter.
+#
+# Example (remove leading '#' and fill real sourced values):
+# Underground,Victoria,Vic,4,20,12,signalling headway limit — record your source
+# =============================================================================

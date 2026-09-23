@@ -1,0 +1,35 @@
+# =============================================================================
+# goal_weights.yaml — weighted goal-programming weights for Model 3
+# -----------------------------------------------------------------------------
+# The Model 3 objective is:
+#
+#   min  w1 * SUM(d_unmet_minus)     # Goal 1: unmet line-boarding demand (pax)
+#      + w2 * SUM(d_freq_minus + d_freq_plus)  # Goal 2: deviation from target freq (trains)
+#      + w3 * SUM(d_crowd_plus)      # Goal 3: crowding above target utilisation (pax)
+#      + w4 * SUM(x)                 # Goal 4: train-equivalent service usage (trains)
+#
+# The four terms have DIFFERENT physical units and very different magnitudes.
+# With `normalize_terms: true` each term is divided by a reference scale before
+# weighting (demand terms by total demand, count terms by number of entities),
+# so weights are comparable. This is recommended; it is still fully explicit.
+#
+# Weights are dimensionless relative importance factors. THEY ARE NOT DATA —
+# change them to reflect your stakeholder priorities and document your choice.
+# =============================================================================
+
+weights:
+  w1_unmet_demand: 1.0      # relative importance of avoiding unmet line demand
+  w2_frequency_target: 1.0  # relative importance of staying near target frequency
+  w3_crowding: 1.0          # relative importance of avoiding crowding > target utilisation
+  w4_service_usage: 0.1     # relative importance of limiting train-equivalent usage
+
+normalize_terms: true
+
+# Goal 3 uses the target occupancy; scenario_parameters.yaml target_utilization
+# is the default, but it can be overridden here for a single goal-programming run.
+target_utilization_override: null
+
+notes: >
+  Academic note: a weighted-sum goal program produces ONE compromise solution
+  among the Pareto set; it does not prove a unique "true optimum". Sweep the
+  weights to show trade-offs in the sensitivity analysis.

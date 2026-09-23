@@ -1,0 +1,123 @@
+# =============================================================================
+# schema_mapping.yaml — flexible schema detection for TfL NUMBAT workbooks
+# =============================================================================
+# NUMBAT sheet/column naming has changed between releases. This file lets you
+# adjust detection WITHOUT editing Python code.
+#
+# Matching rules:
+#   - names are normalised: lowercased, punctuation removed, whitespace collapsed
+#   - an alias matches a column if it equals the column name OR is contained in
+#     it (exact matches are always preferred by the detector)
+#   - `required: true` roles stop the pipeline with a clear error if not found
+#
+# NEVER guess: if a required role cannot be detected, edit this file with the
+# real column/sheet name printed in the error message, then rerun the profiler.
+# =============================================================================
+
+sheets:
+  link_load:
+    aliases: ["link load", "link loads", "linkload", "link demand", "link passenger load"]
+    required: true
+    description: Passenger load between consecutive stations (Link Load).
+  link_frequency:
+    aliases: ["link frequency", "link frequencies", "link freq", "frequency", "service frequency"]
+    required: true
+    description: Scheduled trains per 15-minute period between consecutive stations.
+  line_boarders:
+    aliases: ["line boarders", "line boardings", "line border", "line boarders and alighters", "line demand"]
+    required: true
+    description: Passenger boardings on a line (line-level demand for Model 2/3).
+  station:
+    aliases: ["station boarders", "station board", "station demand", "station entry exit",
+              "station entry/exit", "entry exit", "station entry and exit"]
+    required: false
+    description: Station-level boarders/alighters/entry/exit (exploratory only).
+  od_flow:
+    aliases: ["od flow", "od flows", "origin destination", "origin-destination", "od"]
+    required: false
+    description: OD matrix (descriptive/validation only; never summed as journeys).
+  journey_time:
+    aliases: ["journey time", "journey times", "jt"]
+    required: false
+    description: Descriptive only.
+
+columns:
+  mode:
+    aliases: ["mode", "rail mode", "transport mode"]
+    required: false
+    default: "rail"
+    description: Transport mode (e.g. Underground, Rail). Defaults to configured value if absent.
+  line:
+    aliases: ["line", "line name", "linename", "route", "service"]
+    required: true
+  from_station:
+    aliases: ["from", "from station", "fromstation", "origin", "start station", "from name"]
+    required: true
+    applies_to: [link_load, link_frequency]
+  to_station:
+    aliases: ["to", "to station", "tostation", "destination", "end station", "to name"]
+    required: true
+    applies_to: [link_load, link_frequency]
+  direction:
+    aliases: ["direction", "dir", "inbound", "outbound", "inbound/outbound"]
+    required: false
+  day_type:
+    aliases: ["day type", "daytype", "day types", "day"]
+    required: false
+    description: |
+      If absent, day type is inferred from the sheet name (e.g. "Link Load TWT");
+      otherwise set to "unspecified".
+  time_period:
+    aliases: ["time", "time period", "timeperiod", "timeband", "time band", "time slot",
+              "period", "interval", "time range"]
+    required: true
+  link_load:
+    aliases: ["link load", "load", "passenger load", "passengers", "link loads",
+              "volume", "passenger volume", "passenger loads"]
+    required: true
+    applies_to: [link_load]
+  link_frequency:
+    aliases: ["link frequency", "frequency", "freq", "scheduled frequency",
+              "trains per 15 minutes", "services", "link freq"]
+    required: true
+    applies_to: [link_frequency]
+  line_boarders:
+    aliases: ["line boarders", "line boardings", "line border", "boardings",
+              "passengers boarding", "boarding passengers"]
+    required: true
+    applies_to: [line_boarders]
+  station:
+    aliases: ["station", "station name", "stationname"]
+    required: false
+    applies_to: [station]
+  station_boarders:
+    aliases: ["boarders", "boardings", "station boarders"]
+    required: false
+    applies_to: [station]
+  station_alighters:
+    aliases: ["alighters", "alightings", "station alighters"]
+    required: false
+    applies_to: [station]
+  station_entry:
+    aliases: ["entry", "entries", "station entry", "entries/exits"]
+    required: false
+    applies_to: [station]
+  station_exit:
+    aliases: ["exit", "exits", "station exit"]
+    required: false
+    applies_to: [station]
+
+# Optional explicit normalisation for messy labels (edit after inspecting the
+# profile output). Keys are normalised forms, values are the display labels.
+line_aliases: {}
+station_aliases: {}
+
+# Day-type filter applied during preprocessing (empty = keep every day type).
+# Typical NUMBAT weekday profile is "TWT" (Tuesday-Wednesday-Thursday).
+day_type_filter: ["TWT", "Tue/Wed/Thu", "Tuesday/Wednesday/Thursday", "Weekday", "TD"]
+
+# Default mode label used when the workbook has no mode column.
+default_mode: "rail"
+
+# Header row search depth when a sheet does not start with headers on row 1.
+header_search_rows: 5

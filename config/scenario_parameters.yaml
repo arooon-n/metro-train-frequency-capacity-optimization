@@ -1,0 +1,36 @@
+# =============================================================================
+# scenario_parameters.yaml — sensitivity-analysis configuration
+# -----------------------------------------------------------------------------
+# Every value here is a CONFIGURATION, not a hidden assumption. Edit freely.
+# Multipliers scale the NUMBAT observed values; they never invent base data.
+# =============================================================================
+
+# Demand multipliers applied to Link Load / Line Boarders
+baseline_demand_multiplier: 1.00   # reference scenario (as observed in NUMBAT)
+increased_demand_multiplier: 1.10  # +10% demand scenario
+high_demand_multiplier: 1.20       # +20% demand scenario
+
+# Fleet / train-equivalent service budget multiplier (1.0 = as configured,
+# 0.85 = 15% reduced service budget). Only active if fleet_budget.csv has data.
+fleet_multiplier: 1.0
+reduced_fleet_multiplier: 0.85
+
+# Target occupancy (utilization) used by Model 3 crowding goal and by
+# "different acceptable utilization" scenarios. Utilisation = load / (capacity * freq).
+target_utilization: 0.80
+target_utilization_scenarios: [0.70, 0.80, 0.90]
+
+# Peak definition for peak vs off-peak EDA (24h local labels, start inclusive,
+# end exclusive). Used only for exploratory analysis, not by the optimisers.
+peak_windows:
+  - ["07:00", "10:00"]
+  - ["16:00", "19:00"]
+
+# Day type actually used when several exist in the workbook (first match wins;
+# case-insensitive substring match against the day_type column).
+preferred_day_type: "TWT"
+
+# Solver used for all MILP models (Pyomo interface to HiGHS via highspy).
+solver: "appsi_highs"
+solver_options:
+  output_flag: false

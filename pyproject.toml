@@ -1,0 +1,31 @@
+[project]
+name = "numbat-rail-optimization"
+version = "1.0.0"
+description = "Data-Driven Urban Rail Train Frequency and Capacity Optimization using TfL NUMBAT Data"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "openpyxl>=3.1",
+    "pyarrow>=14.0",
+    "pyomo>=6.7",
+    "highspy>=1.5",
+    "networkx>=3.1",
+    "plotly>=5.18",
+    "streamlit>=1.30",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
